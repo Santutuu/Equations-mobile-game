@@ -1,49 +1,43 @@
+import { Difficulty, Operation } from "./types";
 
-
-/*
-Genera una operación matemática basada en la dificultad seleccionada. 
-*/
-
-type Difficulty = "facil" | "medio" | "dificil";
-
-interface Operation {
-  difficulty: Difficulty;
-  expression: string;
-  answer: number;
+function random(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-const random = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
 
 export function generateOperation(difficulty: Difficulty): Operation {
   if (difficulty === "facil") {
-    const a = random(1, 100);
-    const b = random(1, 100);
-    const operator = Math.random() > 0.5 ? "+" : "-";
+  let a = random(1, 100);
+  let b = random(1, 100);
+  const operator = Math.random() > 0.5 ? "+" : "-";
 
-    return {
-      difficulty,
-      expression: `${a} ${operator} ${b}`,
-      answer: operator === "+" ? a + b : a - b,
-    };
+  if (operator === "-" && b > a) {
+    const temp = a;
+    a = b;
+    b = temp;
   }
+
+  return {
+    difficulty,
+    expression: `${a}${operator}${b}`,
+    answer: operator === "+" ? a + b : a - b,
+  };
+}
 
   if (difficulty === "medio") {
     const operators = ["+", "-", "×", "÷"];
     const operator = operators[random(0, operators.length - 1)];
 
     let a = random(1, 100);
-    let b = random(1, 100);
+    let b = random(1, 12);
 
     if (operator === "÷") {
-      b = random(1, 12);
       const result = random(1, 12);
-      a = b * result; // división exacta
+      a = b * result;
     }
 
     return {
       difficulty,
-      expression: `${a} ${operator} ${b}`,
+      expression: `${a}${operator}${b}`,
       answer:
         operator === "+"
           ? a + b
@@ -55,34 +49,11 @@ export function generateOperation(difficulty: Difficulty): Operation {
     };
   }
 
-  // difícil
-  const type = random(1, 3);
-
-  if (type === 1) {
-    const base = random(2, 12);
-    return {
-      difficulty,
-      expression: `${base}²`,
-      answer: base * base,
-    };
-  }
-
-  if (type === 2) {
-    const root = random(2, 15);
-    return {
-      difficulty,
-      expression: `√${root * root}`,
-      answer: root,
-    };
-  }
-
-  const a = random(1, 50);
-  const b = random(1, 50);
-  const c = random(2, 10);
+  const base = random(2, 12);
 
   return {
     difficulty,
-    expression: `${a} + ${b} × ${c}`,
-    answer: a + b * c,
+    expression: `${base}²`,
+    answer: base * base,
   };
 }

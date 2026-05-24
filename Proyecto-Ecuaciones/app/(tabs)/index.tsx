@@ -122,11 +122,7 @@ export default function HomeScreen() {
       <Text style={styles.bottomIconText}>⚙</Text>
     </Pressable>
   </Link>
-  <Link href="/(tabs)/game/result-win" asChild>
-    <Pressable style={styles.squareButton}>
-      <Text style={styles.bottomIconText}>⚙</Text>
-    </Pressable>
-  </Link>
+  
 </View>
         </View>
       </View>

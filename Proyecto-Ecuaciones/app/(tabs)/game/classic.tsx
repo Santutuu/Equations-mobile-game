@@ -32,7 +32,7 @@ export default function ClassicGameScreen() {
       <GameStatusBar score={score} time="10s" />
 
       <OperationCard
-        expression={operation?.expression ?? ""}
+        expression={operation.expression}
         answerText={answer}
       />
 

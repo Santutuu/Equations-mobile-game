@@ -2,17 +2,23 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 
-export default function GameStatusBar() {
+export default function GameStatusBar({
+  score = 0,
+  time = "10s",
+}: {
+  score?: number;
+  time?: string;
+}) {
   return (
     <View style={styles.statusBar}>
       <View style={styles.statusItem}>
         <IconSymbol name="timer" size={24} color="#F5D547" />
-        <Text style={styles.statusText}>10s</Text>
+        <Text style={styles.statusText}>{time}</Text>
       </View>
 
       <View style={styles.statusItem}>
         <IconSymbol name="star.fill" size={24} color="#F5D547" />
-        <Text style={styles.statusText}>120</Text>
+        <Text style={styles.statusText}>{score}</Text>
       </View>
     </View>
   );

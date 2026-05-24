@@ -1,50 +1,53 @@
-import useGame from "./useGame";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+
+import { generateOperation } from "../lib/math/generator";
+import { Difficulty, Operation } from "../lib/math/types";
 import useNumericInput from "./useNumericInput";
 
-export default function useClassicGame(difficulty: any){
+const MAX_ROUNDS = 10;
 
- const game=
- useGame(difficulty);
+export default function useClassicGame(difficulty: Difficulty) {
+  const router = useRouter();
 
- const input=
- useNumericInput();
+  const [operation, setOperation] = useState<Operation>(() =>
+    generateOperation(difficulty)
+  );
 
- function submitAnswer(){
+  const [round, setRound] = useState(1);
+  const [score, setScore] = useState(0);
 
-     if(
-        input.answer===""
-     )
-     return;
+  const { answer, pressNumber, deleteLast, clear } = useNumericInput();
 
-     game.validateAnswer(
-       Number(input.answer)
-     );
+  function submitAnswer() {
+    if (answer === "") return;
 
-     input.clear();
+    const numericAnswer = Number(answer);
+    const isCorrect = numericAnswer === operation.answer;
 
- }
+    if (!isCorrect) {
+      router.replace("/game/result-lose");
+      return;
+    }
 
- return{
+    if (round === MAX_ROUNDS) {
+      router.replace("/game/result-win");
+      return;
+    }
 
-    operation:
-    game.operation,
+    setScore((prev) => prev + 100);
+    setRound((prev) => prev + 1);
+    setOperation(generateOperation(difficulty));
+    clear();
+  }
 
-    score:
-    game.score,
-
-    round:
-    game.round,
-
-    answer:
-    input.answer,
-
-    pressNumber:
-    input.pressNumber,
-
-    deleteLast:
-    input.deleteLast,
-
-    submitAnswer
- }
-
+  return {
+    operation,
+    answer,
+    score,
+    round,
+    pressNumber,
+    deleteLast,
+    submitAnswer,
+  };
 }

@@ -7,7 +7,11 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 
 type ResultType = "win" | "lose";
 
-export default function LevelResultScreen({ type = "win" }: { type?: ResultType }) {
+export default function LevelResultScreen({
+  type = "win",
+}: {
+  type?: ResultType;
+}) {
   const isWin = type === "win";
 
   return (
@@ -16,15 +20,17 @@ export default function LevelResultScreen({ type = "win" }: { type?: ResultType 
         <View style={styles.topRow}>
           <Link href="/" asChild>
             <Pressable>
-              <IconSymbol name="house.fill" size={45} color="#FFFFFF" />
+              <IconSymbol name="house.fill" size={32} color="#FFFFFF" />
             </Pressable>
           </Link>
-
         </View>
-        <Text style={styles.message}>Buen trabajo!</Text>
+
+        <Text style={styles.message}>
+          {isWin ? "Buen trabajo!" : "Buen intento!"}
+        </Text>
 
         <Text style={styles.subtitle}>
-          {isWin ? "Superaste ronda 1" : "Terminaste ronda 1"}
+          {isWin ? "Superaste ronda 1" : "Perdiste la ronda 1"}
         </Text>
 
         <View style={styles.scoreCard}>
@@ -49,11 +55,13 @@ export default function LevelResultScreen({ type = "win" }: { type?: ResultType 
           <Text style={styles.timeValue}>5,4s</Text>
         </View>
 
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>
-            {isWin ? "Pasar a nivel 2" : "Jugar de nuevo"}
-          </Text>
-        </Pressable>
+        <Link href={isWin ? "/game/classic" : "/game/classic"} asChild>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>
+              {isWin ? "Pasar a nivel 2" : "Jugar de nuevo"}
+            </Text>
+          </Pressable>
+        </Link>
       </View>
     </GameLayout>
   );
@@ -63,7 +71,7 @@ const styles = StyleSheet.create({
   panel: {
     flex: 1,
     backgroundColor: "#3B2E68",
-  
+    marginTop: 72,
     paddingHorizontal: 32,
     paddingTop: 28,
     alignItems: "center",
@@ -71,28 +79,27 @@ const styles = StyleSheet.create({
 
   topRow: {
     width: "100%",
-    marginTop: 20,
-    marginBottom: 70,
+    marginBottom: 28,
   },
 
   message: {
     color: "#FFFFFF",
-    fontSize: 33,
+    fontSize: 24,
     fontWeight: "900",
     textAlign: "center",
   },
 
   subtitle: {
     color: "#FFFFFF",
-    fontSize: 33,
+    fontSize: 22,
     fontWeight: "900",
     textAlign: "center",
-    marginBottom: 80,
+    marginBottom: 28,
   },
 
   scoreCard: {
     width: "100%",
-    height: 88,
+    height: 78,
     borderWidth: 4,
     borderColor: "#F5D547",
     borderRadius: 12,
@@ -100,14 +107,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 22,
     gap: 14,
-    marginBottom: 25,
+    marginBottom: 14,
   },
 
   scoreText: {
     color: "#FFFFFF",
     fontSize: 34,
     fontWeight: "900",
-    
   },
 
   row: {
@@ -127,7 +133,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 16,
-    marginBottom: 10,
   },
 
   bigNumber: {
@@ -150,7 +155,7 @@ const styles = StyleSheet.create({
 
   timeCard: {
     width: "100%",
-    height: 88,
+    height: 82,
     borderWidth: 4,
     borderColor: "#F5D547",
     borderRadius: 12,
@@ -172,15 +177,13 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: "96%",
-    height: 68,
+    width: "76%",
+    height: 58,
     backgroundColor: "#F5D547",
     borderWidth: 4,
-    borderRadius: 8,
-    borderColor: "#8C5BE",
+    borderColor: "#8C5BE8",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 60,
   },
 
   buttonText: {
