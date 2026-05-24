@@ -1,0 +1,3 @@
+/*
+Pantalla para resumen del juego
+*/
