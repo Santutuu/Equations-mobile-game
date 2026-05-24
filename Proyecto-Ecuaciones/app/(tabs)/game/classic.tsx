@@ -24,7 +24,7 @@ export default function ClassicGameScreen() {
       <View style={styles.topRow}>
         <Link href="/" asChild>
           <Pressable>
-            <IconSymbol name="house.fill" size={30} color="#171326" />
+            <IconSymbol name="house.fill" size={80} color="#171326" />
           </Pressable>
         </Link>
       </View>
