@@ -4,10 +4,12 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import GameLayout from "@/components/game/GameLayout";
 import GameStatusBar from "@/components/game/GameStatusBar";
-
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import useTrueFalseGame from "@/hooks/useTrueFalseGame";
 
 export default function TrueFalseScreen() {
+  const { operation, score, round, maxRounds, answer } = useTrueFalseGame();
+
   return (
     <GameLayout>
       <View style={styles.topRow}>
@@ -18,16 +20,22 @@ export default function TrueFalseScreen() {
         </Link>
       </View>
 
-      <GameStatusBar />
+      <GameStatusBar score={score} round={round} maxRounds={maxRounds} />
 
       <View style={styles.content}>
-        <Text style={styles.operation}>24+18=42</Text>
+        <Text style={styles.operation}>{operation.text}</Text>
 
-        <Pressable style={[styles.answerButton, styles.trueButton]}>
+        <Pressable
+          style={[styles.answerButton, styles.trueButton]}
+          onPress={() => answer(true)}
+        >
           <Text style={styles.answerText}>✓ Verdadero</Text>
         </Pressable>
 
-        <Pressable style={[styles.answerButton, styles.falseButton]}>
+        <Pressable
+          style={[styles.answerButton, styles.falseButton]}
+          onPress={() => answer(false)}
+        >
           <Text style={styles.answerText}>✕ Falso</Text>
         </Pressable>
       </View>

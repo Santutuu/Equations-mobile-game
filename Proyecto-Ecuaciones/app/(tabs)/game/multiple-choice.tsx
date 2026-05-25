@@ -4,18 +4,20 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import GameLayout from "@/components/game/GameLayout";
 import GameStatusBar from "@/components/game/GameStatusBar";
-
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import useMultipleChoiceGame from "@/hooks/useMultipleChoiceGame";
 
 function OptionButton({
   letter,
   value,
+  onPress,
 }: {
   letter: string;
-  value: string;
+  value: number;
+  onPress: () => void;
 }) {
   return (
-    <Pressable style={styles.optionButton}>
+    <Pressable style={styles.optionButton} onPress={onPress}>
       <Text style={styles.optionLetter}>{letter}</Text>
       <Text style={styles.optionValue}>{value}</Text>
     </Pressable>
@@ -23,6 +25,11 @@ function OptionButton({
 }
 
 export default function MultipleChoiceScreen() {
+  const { operation, score, round, maxRounds, answer } =
+    useMultipleChoiceGame();
+
+  const letters = ["A", "B", "C", "D"];
+
   return (
     <GameLayout>
       <View style={styles.topRow}>
@@ -33,16 +40,20 @@ export default function MultipleChoiceScreen() {
         </Link>
       </View>
 
-      <GameStatusBar />
+      <GameStatusBar score={score} round={round} maxRounds={maxRounds} />
 
       <View style={styles.content}>
-        <Text style={styles.operation}>24+18=</Text>
+        <Text style={styles.operation}>{operation.text}=</Text>
 
         <View style={styles.optionsGrid}>
-          <OptionButton letter="A" value="42" />
-          <OptionButton letter="B" value="44" />
-          <OptionButton letter="C" value="38" />
-          <OptionButton letter="D" value="46" />
+          {operation.options.map((option, index) => (
+            <OptionButton
+              key={`${option}-${index}`}
+              letter={letters[index]}
+              value={option}
+              onPress={() => answer(option)}
+            />
+          ))}
         </View>
       </View>
     </GameLayout>

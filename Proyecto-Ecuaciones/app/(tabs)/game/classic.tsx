@@ -11,13 +11,17 @@ import useClassicGame from "@/hooks/useClassicGame";
 
 export default function ClassicGameScreen() {
   const {
-    operation,
-    answer,
-    score,
-    pressNumber,
-    deleteLast,
-    submitAnswer,
-  } = useClassicGame("facil");
+ operation,
+ answer,
+ score,
+ round,
+ maxRounds,
+ pressNumber,
+ deleteLast,
+ submitAnswer
+}=useClassicGame(
+ "facil"
+);
 
   return (
     <GameLayout>
@@ -29,7 +33,7 @@ export default function ClassicGameScreen() {
         </Link>
       </View>
 
-      <GameStatusBar score={score} time="10s" />
+      <GameStatusBar score={score} time="10s" round={round} maxRounds={maxRounds} />
 
       <OperationCard
         expression={operation.expression}
