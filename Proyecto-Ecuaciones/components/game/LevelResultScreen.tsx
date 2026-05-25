@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -12,7 +12,23 @@ export default function LevelResultScreen({
 }: {
   type?: ResultType;
 }) {
+  const params = useLocalSearchParams();
+
   const isWin = type === "win";
+  const finishedGame = params.finishedGame === "true";
+  const nextLevel = Number(params.nextLevel ?? 1);
+
+  const buttonText = !isWin
+    ? "Jugar de nuevo"
+    : finishedGame
+      ? "Volver al menú"
+      : `Pasar a nivel ${nextLevel}`;
+
+  const buttonHref = !isWin
+    ? "/game/classic?level=1"
+    : finishedGame
+      ? "/"
+      : `/game/classic?level=${nextLevel}`;
 
   return (
     <GameLayout>
@@ -30,7 +46,11 @@ export default function LevelResultScreen({
         </Text>
 
         <Text style={styles.subtitle}>
-          {isWin ? "Superaste ronda 1" : "Perdiste la ronda 1"}
+          {isWin
+            ? finishedGame
+              ? "Completaste todos los niveles"
+              : "Superaste el nivel"
+            : "Perdiste la ronda"}
         </Text>
 
         <View style={styles.scoreCard}>
@@ -55,11 +75,9 @@ export default function LevelResultScreen({
           <Text style={styles.timeValue}>5,4s</Text>
         </View>
 
-        <Link href={isWin ? "/game/classic" : "/game/classic"} asChild>
+        <Link href={buttonHref as any} asChild>
           <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>
-              {isWin ? "Pasar a nivel 2" : "Jugar de nuevo"}
-            </Text>
+            <Text style={styles.buttonText}>{buttonText}</Text>
           </Pressable>
         </Link>
       </View>

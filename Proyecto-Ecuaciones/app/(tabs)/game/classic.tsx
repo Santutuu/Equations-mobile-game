@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -10,18 +10,19 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 import useClassicGame from "@/hooks/useClassicGame";
 
 export default function ClassicGameScreen() {
+  const params = useLocalSearchParams();
+  const level = Number(params.level ?? 1);
+
   const {
- operation,
- answer,
- score,
- round,
- maxRounds,
- pressNumber,
- deleteLast,
- submitAnswer
-}=useClassicGame(
- "facil"
-);
+    operation,
+    answer,
+    score,
+    round,
+    maxRounds,
+    pressNumber,
+    deleteLast,
+    submitAnswer,
+  } = useClassicGame(level);
 
   return (
     <GameLayout>
@@ -33,12 +34,14 @@ export default function ClassicGameScreen() {
         </Link>
       </View>
 
-      <GameStatusBar score={score} time="10s" round={round} maxRounds={maxRounds} />
-
-      <OperationCard
-        expression={operation.expression}
-        answerText={answer}
+      <GameStatusBar
+        score={score}
+        time={`N${level}`}
+        round={round}
+        maxRounds={maxRounds}
       />
+
+      <OperationCard expression={operation.expression} answerText={answer} />
 
       <AnswerPad
         onNumberPress={pressNumber}
