@@ -1,45 +1,109 @@
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import GameLayout from "@/components/game/GameLayout";
 import GameStatusBar from "@/components/game/GameStatusBar";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+
 import useTrueFalseGame from "@/hooks/useTrueFalseGame";
 
 export default function TrueFalseScreen() {
   const params = useLocalSearchParams();
+  const router = useRouter();
+
   const level = Number(params.level ?? 1);
 
-  const { question, round, answer } = useTrueFalseGame(level);
+  const restartKey = String(
+    params.restart ?? ""
+  );
+
+  const {
+    question,
+    score,
+    round,
+    maxRounds,
+    secondsLeft,
+    answer,
+  } = useTrueFalseGame({
+    level,
+    restartKey,
+
+    accumulatedScore: Number(
+      params.accumulatedScore ?? 0
+    ),
+
+    accumulatedCorrectAnswers: Number(
+      params.accumulatedCorrectAnswers ?? 0
+    ),
+
+    accumulatedWrongAnswers: Number(
+      params.accumulatedWrongAnswers ?? 0
+    ),
+
+    accumulatedResponseTime: Number(
+      params.accumulatedResponseTime ?? 0
+    ),
+  });
 
   return (
     <GameLayout>
       <View style={styles.topRow}>
-        <Link href="/" asChild>
-          <Pressable>
-            <IconSymbol name="house.fill" size={30} color="#171326" />
-          </Pressable>
-        </Link>
+        <Pressable
+          onPress={() => {
+            router.replace("/");
+          }}
+        >
+          <IconSymbol
+            name="house.fill"
+            size={80}
+            color="#171326"
+          />
+        </Pressable>
       </View>
 
-      <GameStatusBar score={0} time={`N${level}`} round={round} maxRounds={10} />
+      <GameStatusBar
+        score={score}
+        time={`${secondsLeft}s`}
+        round={round}
+        maxRounds={maxRounds}
+      />
 
       <View style={styles.content}>
-        <Text style={styles.operation}>{question.display}</Text>
+        <Text style={styles.operation}>
+          {question.display}
+        </Text>
 
         <Pressable
-          style={[styles.answerButton, styles.trueButton]}
-          onPress={() => answer(true)}
+          style={[
+            styles.answerButton,
+            styles.trueButton,
+          ]}
+          onPress={() =>
+            answer(true)
+          }
         >
-          <Text style={styles.answerText}>✓ Verdadero</Text>
+          <Text
+            style={styles.answerText}
+          >
+            ✓ Verdadero
+          </Text>
         </Pressable>
 
         <Pressable
-          style={[styles.answerButton, styles.falseButton]}
-          onPress={() => answer(false)}
+          style={[
+            styles.answerButton,
+            styles.falseButton,
+          ]}
+          onPress={() =>
+            answer(false)
+          }
         >
-          <Text style={styles.answerText}>✕ Falso</Text>
+          <Text
+            style={styles.answerText}
+          >
+            ✕ Falso
+          </Text>
         </Pressable>
       </View>
     </GameLayout>
@@ -47,47 +111,48 @@ export default function TrueFalseScreen() {
 }
 
 const styles = StyleSheet.create({
-  topRow: {
-    height: 58,
-    paddingHorizontal: 28,
-    justifyContent: "center",
+  topRow:{
+    height:58,
+    paddingHorizontal:28,
+    justifyContent:"center",
   },
 
-  content: {
-    alignItems: "center",
-    marginTop: 46,
-    paddingHorizontal: 22,
+  content:{
+    alignItems:"center",
+    marginTop:42,
+    paddingHorizontal:28,
   },
 
-  operation: {
-    color: "#171326",
-    fontSize: 54,
-    fontWeight: "900",
-    marginBottom: 48,
+  operation:{
+    color:"#171326",
+    fontSize:50,
+    fontWeight:"900",
+    marginBottom:46,
   },
 
-  answerButton: {
-    width: "100%",
-    height: 84,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 22,
-    borderWidth: 3,
-    borderColor: "#FFFFFF",
+  answerButton:{
+    width:"100%",
+    height:72,
+    borderRadius:10,
+    alignItems:"center",
+    justifyContent:"center",
+    marginBottom:18,
+    borderWidth:3,
+    borderColor:"#FFFFFF"
   },
 
-  trueButton: {
-    backgroundColor: "#51C86B",
+  trueButton:{
+    backgroundColor:"#51C86B",
   },
 
-  falseButton: {
-    backgroundColor: "#FF5757",
+  falseButton:{
+    backgroundColor:"#FF5757",
   },
 
-  answerText: {
-    color: "#FFFFFF",
-    fontSize: 32,
-    fontWeight: "900",
-  },
+  answerText:{
+    color:"#FFFFFF",
+    fontSize:28,
+    fontWeight:"900"
+  }
+
 });

@@ -1,57 +1,80 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect } from "react";
 
-import {
-generateOperation,
-getDifficultyByClassicLevel
-}
-from "@/lib/math/generator";
+import useGame from "@/hooks/useGame";
 
-import {
-generateTrueFalse
-}
-from "@/lib/math/trueFalseGenerator";
+import { generateTrueFalse } from "@/lib/math/trueFalseGenerator";
+import { calculateScore } from "@/lib/scoring/calcularScore";
 
-const MAX_LEVEL=3
-const MAX_ROUNDS=10
+type Params = {
+  level:number;
+  restartKey?:string;
 
-export default function
-useTrueFalseGame(
-level:number
-){
+  accumulatedScore?:number;
+  accumulatedCorrectAnswers?:number;
+  accumulatedWrongAnswers?:number;
+  accumulatedResponseTime?:number;
+};
 
-const router=
-useRouter()
+export default function useTrueFalseGame({
+  level,
+  restartKey="",
 
-const difficulty=
-getDifficultyByClassicLevel(
-level
-)
+  accumulatedScore=0,
+  accumulatedCorrectAnswers=0,
+  accumulatedWrongAnswers=0,
+  accumulatedResponseTime=0,
+}:Params){
 
-const operation=
-generateOperation(
-difficulty
-)
+  const game=useGame({
+    level,
+    restartKey,
 
-const[
-current,
-setCurrent
-]=useState(operation)
+    maxRounds:10,
+    questionTime:15,
 
-const[
-question,
-setQuestion
-]=useState(
-generateTrueFalse(
-operation.expression,
-operation.answer
-)
-)
+    mode:"true-false",
 
-const[
-round,
-setRound
-]=useState(1)
+    accumulatedScore,
+    accumulatedCorrectAnswers,
+    accumulatedWrongAnswers,
+    accumulatedResponseTime,
+  });
+
+  const question=
+    generateTrueFalse(
+      game.operation.expression,
+      game.operation.answer
+    );
+
+  useEffect(()=>{
+
+    if(!game.isActive) return;
+
+    if(game.secondsLeft===0){
+
+      const points=
+      calculateScore({
+
+        isCorrect:false,
+
+        isTimeout:true,
+
+        secondsLeft:0,
+
+        questionTime:
+        game.questionTime
+      });
+
+      game.finishQuestion(
+        points,
+        false,
+        game.questionTime
+      );
+    }
+
+  },[game.secondsLeft]);
+
+
 
 function answer(
 selected:boolean
@@ -61,60 +84,29 @@ const isCorrect=
 selected===
 question.isCorrect
 
-if(
-!isCorrect
-){
+const responseTime=
+game.questionTime-
+game.secondsLeft
 
-router.replace(
-"/game/result-lose"
-)
+const points=
+calculateScore({
 
-return
+isCorrect,
 
-}
+isTimeout:false,
 
-if(
-round>=MAX_ROUNDS
-){
+secondsLeft:
+game.secondsLeft,
 
-router.replace({
-
-pathname:
-"/game/result-win",
-
-params:{
-
-nextLevel:
-String(level+1),
-
-finishedGame:
-String(
-level>=3
-)
-
-}
+questionTime:
+game.questionTime
 
 })
 
-return
-
-}
-
-const next=
-generateOperation(
-difficulty)
-
-setCurrent(next)
-
-setQuestion(
-generateTrueFalse(
-next.expression,
-next.answer
-)
-)
-
-setRound(
-prev=>prev+1
+game.finishQuestion(
+points,
+isCorrect,
+responseTime
 )
 
 }
@@ -123,7 +115,17 @@ return{
 
 question,
 
-round,
+score:
+game.score,
+
+round:
+game.round,
+
+maxRounds:
+game.maxRounds,
+
+secondsLeft:
+game.secondsLeft,
 
 answer
 

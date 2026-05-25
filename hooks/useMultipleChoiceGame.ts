@@ -1,118 +1,146 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useMemo } from "react";
 
-import {
-generateOperation,
-getDifficultyByClassicLevel
-}
-from "@/lib/math/generator";
+import useGame from "@/hooks/useGame";
 
-import {
-generateOptions
-}
+import { generateOptions }
 from "@/lib/math/multipleChoiceGenerator";
 
-const MAX_LEVEL=3
-const MAX_ROUNDS=10
+import { calculateScore }
+from "@/lib/scoring/calcularScore";
+
+type Params={
+
+level:number;
+
+restartKey?:string;
+
+accumulatedScore?:number;
+accumulatedCorrectAnswers?:number;
+accumulatedWrongAnswers?:number;
+accumulatedResponseTime?:number;
+
+}
 
 export default function
-useMultipleChoiceGame(
-level:number
+useMultipleChoiceGame({
+
+level,
+
+restartKey="",
+
+accumulatedScore=0,
+accumulatedCorrectAnswers=0,
+accumulatedWrongAnswers=0,
+accumulatedResponseTime=0,
+
+}:Params){
+
+const game=
+useGame({
+
+level,
+
+restartKey,
+
+maxRounds:10,
+
+questionTime:15,
+
+mode:"multiple-choice",
+
+accumulatedScore,
+accumulatedCorrectAnswers,
+accumulatedWrongAnswers,
+accumulatedResponseTime
+
+})
+
+const options=
+useMemo(()=>{
+
+return generateOptions(
+game.operation.answer
+)
+
+},[
+game.operation.answer
+])
+
+useEffect(()=>{
+
+if(!game.isActive)
+return
+
+if(
+game.secondsLeft===0
 ){
 
-const router=
-useRouter()
+const points=
+calculateScore({
 
-const difficulty=
-getDifficultyByClassicLevel(
-level
+isCorrect:false,
+
+isTimeout:true,
+
+secondsLeft:0,
+
+questionTime:
+game.questionTime
+
+})
+
+game.finishQuestion(
+
+points,
+
+false,
+
+game.questionTime
+
 )
 
-const operation=
-generateOperation(
-difficulty
-)
+}
 
-const[
-current,
-setCurrent
-]=useState(operation)
-
-const[
-options,
-setOptions
-]=useState(
-generateOptions(
-operation.answer
-)
-)
-
-const[
-round,
-setRound
-]=useState(1)
+},[
+game.secondsLeft
+])
 
 function answer(
 selected:number
 ){
 
 const isCorrect=
+
 selected===
-current.answer
+game.operation.answer
 
-if(
-!isCorrect
-){
+const responseTime=
+game.questionTime-
+game.secondsLeft
 
-router.replace(
-"/game/result-lose"
-)
+const points=
+calculateScore({
 
-return
+isCorrect,
 
-}
+isTimeout:false,
 
-if(
-round>=MAX_ROUNDS
-){
+secondsLeft:
+game.secondsLeft,
 
-router.replace({
-
-pathname:
-"/game/result-win",
-
-params:{
-nextLevel:
-String(level+1),
-
-finishedGame:
-String(
-level>=MAX_LEVEL
-)
-
-}
+questionTime:
+game.questionTime
 
 })
 
-return
+game.finishQuestion(
 
-}
+points,
 
-const next=
-generateOperation(
-difficulty
-)
+isCorrect,
 
-setCurrent(next)
+responseTime
 
-setOptions(
-generateOptions(
-next.answer
-)
-)
-
-setRound(
-prev=>prev+1
 )
 
 }
@@ -120,11 +148,21 @@ prev=>prev+1
 return{
 
 operation:
-current,
+game.operation,
 
 options,
 
-round,
+score:
+game.score,
+
+round:
+game.round,
+
+maxRounds:
+game.maxRounds,
+
+secondsLeft:
+game.secondsLeft,
 
 answer
 

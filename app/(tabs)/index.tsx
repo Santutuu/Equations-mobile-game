@@ -1,5 +1,4 @@
 import { Link, useRouter } from "expo-router";
-
 import React from "react";
 import {
   Text,
@@ -218,10 +217,16 @@ export default function HomeScreen() {
 
           <View style={styles.modes}>
             <ModeButton
-              onPress={
-                startClassicGame
+              onPress={startClassicGame}
+              icon={
+                <View style={styles.mathClassicIconContainer}>
+                  <Text style={styles.mathRadical}>√</Text>
+                  <View style={styles.mathBaseContainer}>
+                    <View style={styles.mathOverbar} />
+                    <Text style={styles.mathVariable}>x</Text>
+                  </View>
+                </View>
               }
-              icon={<Text>▦</Text>}
               label="Clásico"
             />
 
@@ -263,13 +268,10 @@ export default function HomeScreen() {
               }
               label="Multiple Choice"
               icon={
-                <Text
-                  style={
-                    styles.emojiIcon
-                  }
-                >
-                  ◉◌
-                </Text>
+                <View style={styles.mcIconContainer}>
+                  <Text style={[styles.mcDot, styles.mcDotSelected]}>●</Text>
+                  <Text style={styles.mcDot}>○</Text>
+                </View>
               }
             />
 
@@ -279,11 +281,7 @@ export default function HomeScreen() {
               }
               label="Contrarreloj"
               icon={
-                <Text
-                  style={
-                    styles.emojiIcon
-                  }
-                >
+                <Text style={styles.timedIcon}>
                   ◷
                 </Text>
               }
@@ -434,18 +432,14 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
 
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
   },
 
   modeIcon: {
-    width: 48,
-
+    width: 54,
     alignItems: "center",
-
-    justifyContent:
-      "center",
-
-    marginRight: 12,
+    justifyContent: "center",
+    marginRight: 10,
   },
 
   modeText: {
@@ -456,17 +450,72 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
 
-  emojiIcon: {
-    color: "#FFFFFF",
-
-    fontSize: 25,
-
-    fontWeight: "900",
+  /* --- ÍCONO MATEMÁTICO CLÁSICO (√x) --- */
+  mathClassicIconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+  },
+  mathRadical: {
+    color: "#F5D547",
+    fontSize: 32,
+    fontWeight: "300",
+    fontFamily: "monospace",
+    marginRight: -2,
+    marginTop: -4,
+  },
+  mathBaseContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+  mathOverbar: {
+    backgroundColor: "#F5D547",
+    height: 2,
+    width: 14,
+    marginBottom: 1,
+  },
+  mathVariable: {
+    color: "#F5D547",
+    fontSize: 18,
+    fontWeight: "700",
+    fontStyle: "italic",
+    fontFamily: "serif",
+    lineHeight: 20,
+    paddingLeft: 1,
   },
 
   vfIcon: {
-    fontSize: 27,
+    fontSize: 28,
     fontWeight: "900",
+    letterSpacing: -1,
+  },
+
+  mcIconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+  },
+
+  mcDot: {
+    color: "#8E85B0",
+    fontSize: 28,
+    fontWeight: "900",
+    includeFontPadding: false,
+  },
+
+  mcDotSelected: {
+    color: "#F5D547",
+  },
+
+  timedIcon: {
+    color: "#FF4B5C",
+    fontSize: 34,
+    fontWeight: "900",
+    textAlign: "center",
+    includeFontPadding: false,
+    lineHeight: 36,
   },
 
   bottomIcons: {
