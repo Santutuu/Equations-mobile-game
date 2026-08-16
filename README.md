@@ -18,9 +18,9 @@ Four different game modes provide different ways to practice mental arithmetic.
 * **Time Trial:** solve operations under continuous time pressure.
 
 <p align="center">
-  <img src="docs/screenshots/Modo-clasico.jpeg" width="30%" alt="Classic Mode"/>
-  <img src="docs/screenshots/Modo-verdadero-falso.jpeg" width="30%" alt="True or False Mode"/>
-  <img src="docs/screenshots/Modo-eleccion-multiple.jpeg" width="30%" alt="Multiple Choice Mode"/>
+  <img src="docs/screenshots/Modo-clasico.jpeg" width="25%" alt="Classic Mode"/>
+  <img src="docs/screenshots/Modo-verdadero-falso.jpeg" width="25%" alt="True or False Mode"/>
+  <img src="docs/screenshots/Modo-eleccion-multiple.jpeg" width="25%" alt="Multiple Choice Mode"/>
 </p>
 
 ---
@@ -36,8 +36,8 @@ Four different game modes provide different ways to practice mental arithmetic.
 * 📊 Historical statistics by game mode
 
 <p align="center">
-  <img src="docs/screenshots/Configuracion.jpeg" width="32%" alt="Game Configuration"/>
-  <img src="docs/screenshots/Estadisticas.jpeg" width="32%" alt="Statistics"/>
+  <img src="docs/screenshots/Configuracion.jpeg" width="25%" alt="Game Configuration"/>
+  <img src="docs/screenshots/Estadisticas.jpeg" width="25%" alt="Statistics"/>
 </p>
 
 ---
