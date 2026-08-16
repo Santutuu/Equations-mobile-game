@@ -1,4 +1,4 @@
-#Equations — Mental Math Game
+# Equations — Mental Math Game
 
 **Equations** is a mobile mental math game built with **React Native and TypeScript**, featuring multiple game modes, progressive difficulty, dynamic equation generation and performance tracking.
 
