@@ -1,50 +1,95 @@
-# Welcome to your Expo app 👋
+# 🧠 Equations — Mental Math Game
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Equations** is a mobile mental math game built with **React Native and TypeScript**, featuring multiple game modes, progressive difficulty, dynamic equation generation and performance tracking.
 
-## Get started
+<p align="center">
+  <img src="docs/screenshots/Menu-principal.jpeg" width="30%" />
+  <img src="docs/screenshots/Modo-clasico.jpeg" width="30%" />
+  <img src="docs/screenshots/Estadisticas.jpeg" width="30%" />
+</p>
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🎮 Game Modes
 
-2. Start the app
+### 🔢 Classic
 
-   ```bash
-   npx expo start
-   ```
+Solve dynamically generated operations using a custom numeric keypad.
 
-In the output, you'll find options to open the app in a
+### ✅ True / False
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Determine whether a generated equation is correct before time runs out.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 🔘 Multiple Choice
 
-## Get a fresh project
+Choose the correct answer among four dynamically generated options.
 
-When you're ready, run:
+### ⏱️ Time Trial
 
-```bash
-npm run reset-project
+Solve as many operations as possible under continuous time pressure.
+
+<p align="center">
+  <img src="docs/screenshots/Modo-clasico.jpeg" width="23%" />
+  <img src="docs/screenshots/Modo-verdadero-falso.jpeg" width="23%" />
+  <img src="docs/screenshots/Modo-eleccion-multiple.jpeg" width="23%" />
+  <img src="docs/screenshots/Modo-contrarreloj.jpeg" width="23%" />
+</p>
+
+---
+
+## ✨ Features
+
+* 🧮 Dynamic equation generation
+* 📈 Three progressive difficulty levels
+* ⭐ Performance-based scoring
+* ⏱️ Timed gameplay
+* ⚙️ Configurable game sessions
+* 💾 Local persistence with AsyncStorage
+* 📊 Historical statistics by game mode
+
+<p align="center">
+  <img src="docs/screenshots/Configuracion.jpeg" width="30%" />
+  <img src="docs/screenshots/Menu-finalizacion-partida.jpeg" width="30%" />
+  <img src="docs/screenshots/Estadisticas.jpeg" width="30%" />
+</p>
+
+---
+
+## 🏗️ Architecture
+
+Game logic is separated from the UI through reusable hooks and dedicated modules for equation generation, scoring and local persistence.
+
+```text
+app/          → Screens & navigation
+components/   → Reusable UI
+hooks/        → Game logic
+lib/math/     → Equation generation
+lib/scoring/  → Scoring
+lib/storage/  → Local persistence
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🛠️ Technologies
 
-To learn more about developing your project with Expo, look at the following resources:
+**React Native · TypeScript · Expo · Expo Router · AsyncStorage · React Hooks · Animated API**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 📄 Documentation
 
-Join our community of developers creating universal apps.
+Detailed functional and technical documentation:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**[View Full Documentation](docs/Functionalities-documentation.pdf)**
+
+---
+
+## 🚀 Run Locally
+
+```bash
+git clone https://github.com/Santutuu/Equations-mobile-game.git
+cd Equations-mobile-game
+npm install
+npx expo start
+```
+
