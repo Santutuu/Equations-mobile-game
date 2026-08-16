@@ -43,7 +43,7 @@ export default function LevelResultScreen({
         <View style={styles.topRow}>
           <Link href="/" asChild>
             <Pressable>
-              <IconSymbol name="house.fill" size={32} color="#FFFFFF" />
+              <IconSymbol name="house.fill" size={45} color="#FFFFFF" />
             </Pressable>
           </Link>
         </View>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   panel: {
     flex: 1,
     backgroundColor: "#3B2E68",
-    marginTop: 72,
+    
     paddingHorizontal: 32,
     paddingTop: 28,
     alignItems: "center",
@@ -104,12 +104,13 @@ const styles = StyleSheet.create({
 
   topRow: {
     width: "100%",
+    marginTop: 30,
     marginBottom: 28,
   },
 
   message: {
     color: "#FFFFFF",
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "900",
     textAlign: "center",
   },
@@ -124,20 +125,22 @@ const styles = StyleSheet.create({
 
   scoreCard: {
     width: "100%",
-    height: 78,
+    height: 90,
     borderWidth: 4,
     borderColor: "#F5D547",
     borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 22,
-    gap: 14,
-    marginBottom: 14,
+    gap: 20,
+    marginTop: 80,
+    marginBottom: 40,
+
   },
 
   scoreText: {
     color: "#FFFFFF",
-    fontSize: 34,
+    fontSize: 35,
     fontWeight: "900",
   },
 
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
 
   timeCard: {
     width: "100%",
-    height: 82,
+    height: 90,
     borderWidth: 4,
     borderColor: "#F5D547",
     borderRadius: 12,
@@ -202,13 +205,15 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: "76%",
-    height: 58,
+    marginTop: 90,
+    width: "90%",
+    height: 70,
     backgroundColor: "#F5D547",
     borderWidth: 4,
     borderColor: "#8C5BE8",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 12,
   },
 
   buttonText: {

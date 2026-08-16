@@ -263,27 +263,44 @@ export default function HomeScreen() {
             />
 
             <ModeButton
-              onPress={
-                startMultipleChoiceGame
-              }
+              onPress={startMultipleChoiceGame}
               label="Multiple Choice"
               icon={
-                <View style={styles.mcIconContainer}>
-                  <Text style={[styles.mcDot, styles.mcDotSelected]}>●</Text>
-                  <Text style={styles.mcDot}>○</Text>
+                <View style={styles.epicExamContainer}>
+                  {/* Fila 1 del examen */}
+                  <View style={styles.examRow}>
+                    <View style={[styles.examBubble, styles.examBubbleSelected]} />
+                    <View style={styles.examBubble} />
+                    <View style={styles.examBubble} />
+                  </View>
+                  {/* Fila 2 del examen */}
+                  <View style={styles.examRow}>
+                    <View style={styles.examBubble} />
+                    <View style={styles.examBubble} />
+                    <View style={[styles.examBubble, styles.examBubbleSelected]} />
+                  </View>
+                  {/* Fila 3 del examen */}
+                  <View style={styles.examRow}>
+                    <View style={styles.examBubble} />
+                    <View style={[styles.examBubble, styles.examBubbleSelected]} />
+                    <View style={styles.examBubble} />
+                  </View>
                 </View>
               }
             />
 
             <ModeButton
-              onPress={
-                startTimedGame
-              }
+              onPress={startTimedGame}
               label="Contrarreloj"
               icon={
-                <Text style={styles.timedIcon}>
-                  ◷
-                </Text>
+                <View style={styles.hourglassContainer}>
+                  {/* Tapa superior del reloj */}
+                  <View style={styles.hourglassCap} />
+                  {/* Cuerpo de cristal con la arena cayendo */}
+                  <Text style={styles.hourglassGlass}>⏳</Text>
+                  {/* Tapa inferior del reloj */}
+                  <View style={styles.hourglassCap} />
+                </View>
               }
             />
           </View>
@@ -450,7 +467,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
 
-  /* --- ÍCONO MATEMÁTICO CLÁSICO (√x) --- */
+  /* --- CLÁSICO (√x) --- */
   mathClassicIconContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -485,37 +502,58 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
   },
 
+  /* --- VERDADERO / FALSO --- */
   vfIcon: {
     fontSize: 28,
     fontWeight: "900",
     letterSpacing: -1,
   },
 
-  mcIconContainer: {
+  /* --- NUEVO: HOJA DE EXAMEN ÉPICA (Multiple Choice) --- */
+  epicExamContainer: {
+    backgroundColor: "#2E2452", // Un fondo levemente más oscuro que el botón para dar contraste
+    padding: 6,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: "#5A46A8",
+    gap: 4,
+    width: 42,
+    alignItems: "center",
+  },
+  examRow: {
     flexDirection: "row",
+    gap: 4,
+  },
+  examBubble: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    borderWidth: 1.5,
+    borderColor: "#8E85B0",
+  },
+  examBubbleSelected: {
+    backgroundColor: "#F5D547",
+    borderColor: "#F5D547",
+  },
+
+  /* --- NUEVO: RELOJ DE ARENA ARCADE (Contrarreloj) --- */
+  hourglassContainer: {
     alignItems: "center",
     justifyContent: "center",
-    gap: 2,
+    width: 40,
   },
-
-  mcDot: {
-    color: "#8E85B0",
-    fontSize: 28,
-    fontWeight: "900",
-    includeFontPadding: false,
+  hourglassCap: {
+    backgroundColor: "#F5D547", // Bordes planos dorados arriba y abajo
+    height: 3,
+    width: 22,
+    borderRadius: 1,
   },
-
-  mcDotSelected: {
-    color: "#F5D547",
-  },
-
-  timedIcon: {
-    color: "#FF4B5C",
-    fontSize: 34,
-    fontWeight: "900",
+  hourglassGlass: {
+    fontSize: 26,
+    lineHeight: 32,
+    color: "#FF4B5C", // Tinte rojizo para denotar urgencia
     textAlign: "center",
-    includeFontPadding: false,
-    lineHeight: 36,
+    marginVertical: -2, // Pega el emoji a los bordes construidos
   },
 
   bottomIcons: {

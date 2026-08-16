@@ -19,8 +19,8 @@ export default function TimedScreen() {
           <Pressable>
             <IconSymbol
               name="house.fill"
-              size={30}
-              color="#171326"
+              size={50}
+              color="black"
             />
           </Pressable>
         </Link>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     height: 58,
     paddingHorizontal: 28,
     justifyContent: "center",
+    marginTop: 40,
   },
 
   scoreBox: {

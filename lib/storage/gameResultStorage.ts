@@ -1,36 +1,83 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GameResult } from "@/lib/scoring/resultTypes";
 
-const STORAGE_KEY = "game_results";
+import { GameResult }
+from "@/lib/scoring/resultTypes";
 
-export async function getGameResults(): Promise<GameResult[]> {
-  const raw = await AsyncStorage.getItem(STORAGE_KEY);
+const KEY="game_results";
 
-  if (!raw) return [];
+export async function
+saveGameResult(
+result:GameResult
+){
 
-  return JSON.parse(raw);
+const current=
+await getResults()
+
+const updated=[
+
+result,
+
+...current
+
+]
+
+await AsyncStorage.setItem(
+
+KEY,
+
+JSON.stringify(updated)
+
+)
+
 }
 
-export async function saveGameResult(result: GameResult) {
-  const results = await getGameResults();
+export async function
+getResults():
+Promise<GameResult[]>{
 
-  const updatedResults = [result, ...results];
+const value=
+await AsyncStorage.getItem(
+KEY
+)
 
-  await AsyncStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(updatedResults)
-  );
+if(!value)
+return []
+
+return JSON.parse(
+value
+)
+
 }
 
-export async function getBestResultsByMode(mode: GameResult["mode"]) {
-  const results = await getGameResults();
+export async function
+getBestResultsByMode(
+mode:string
+){
 
-  return results
-    .filter((result) => result.mode === mode)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5);
-}
+const results=
+await getResults()
 
-export async function clearGameResults() {
-  await AsyncStorage.removeItem(STORAGE_KEY);
+return results
+
+.filter(
+(r:GameResult)=>
+
+r.mode===mode
+)
+
+.sort(
+
+(
+a:GameResult,
+
+b:GameResult
+
+)=>
+
+b.score-a.score
+
+)
+
+.slice(0,5)
+
 }

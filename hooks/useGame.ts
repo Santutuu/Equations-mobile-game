@@ -1,6 +1,6 @@
-import { useRouter, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   generateOperation,
@@ -10,7 +10,7 @@ import { Operation } from "@/lib/math/types";
 import { saveGameResult } from "@/lib/storage/gameResultStorage";
 
 const MAX_LEVEL = 3;
-const PASSING_SCORE = 760;
+const PASSING_SCORE = 700;
 
 type UseGameParams = {
   level: number;
@@ -43,7 +43,7 @@ export default function useGame({
   const difficulty = getDifficultyByClassicLevel(level);
 
   const [operation, setOperation] = useState<Operation>(() =>
-    generateOperation(difficulty)
+    generateOperation(difficulty),
   );
 
   const [round, setRound] = useState(1);
@@ -73,7 +73,7 @@ export default function useGame({
       return () => {
         hasFinishedRef.current = true;
       };
-    }, [resetGame])
+    }, [resetGame]),
   );
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function useGame({
   async function finishQuestion(
     points: number,
     isCorrect: boolean,
-    responseTime: number
+    responseTime: number,
   ) {
     if (!isFocused || hasFinishedRef.current) return;
 

@@ -5,7 +5,6 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import GameLayout from "@/components/game/GameLayout";
 import GameStatusBar from "@/components/game/GameStatusBar";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-
 import useTrueFalseGame from "@/hooks/useTrueFalseGame";
 
 export default function TrueFalseScreen() {
@@ -13,10 +12,7 @@ export default function TrueFalseScreen() {
   const router = useRouter();
 
   const level = Number(params.level ?? 1);
-
-  const restartKey = String(
-    params.restart ?? ""
-  );
+  const restartKey = String(params.restart ?? "");
 
   const {
     question,
@@ -28,38 +24,21 @@ export default function TrueFalseScreen() {
   } = useTrueFalseGame({
     level,
     restartKey,
-
-    accumulatedScore: Number(
-      params.accumulatedScore ?? 0
-    ),
-
-    accumulatedCorrectAnswers: Number(
-      params.accumulatedCorrectAnswers ?? 0
-    ),
-
-    accumulatedWrongAnswers: Number(
-      params.accumulatedWrongAnswers ?? 0
-    ),
-
-    accumulatedResponseTime: Number(
-      params.accumulatedResponseTime ?? 0
-    ),
+    accumulatedScore: Number(params.accumulatedScore ?? 0),
+    accumulatedCorrectAnswers: Number(params.accumulatedCorrectAnswers ?? 0),
+    accumulatedWrongAnswers: Number(params.accumulatedWrongAnswers ?? 0),
+    accumulatedResponseTime: Number(params.accumulatedResponseTime ?? 0),
   });
 
   return (
     <GameLayout>
+      {/* Barra superior con el botón idéntico al código de Stats */}
       <View style={styles.topRow}>
-        <Pressable
-          onPress={() => {
-            router.replace("/");
-          }}
-        >
-          <IconSymbol
-            name="house.fill"
-            size={80}
-            color="#171326"
-          />
-        </Pressable>
+        <Link href="/" asChild>
+          <Pressable>
+            <IconSymbol name="house.fill" size={50} color="black" />
+          </Pressable>
+        </Link>
       </View>
 
       <GameStatusBar
@@ -69,90 +48,82 @@ export default function TrueFalseScreen() {
         maxRounds={maxRounds}
       />
 
-      <View style={styles.content}>
-        <Text style={styles.operation}>
-          {question.display}
-        </Text>
+      <View style={styles.mainContainer}>
+        <View style={styles.operationWrapper}>
+          <Text style={styles.operation}>{question.display}</Text>
+        </View>
 
-        <Pressable
-          style={[
-            styles.answerButton,
-            styles.trueButton,
-          ]}
-          onPress={() =>
-            answer(true)
-          }
-        >
-          <Text
-            style={styles.answerText}
+        <View style={styles.buttonWrapper}>
+          <Pressable
+            style={[styles.answerButton, styles.trueButton]}
+            onPress={() => answer(true)}
           >
-            ✓ Verdadero
-          </Text>
-        </Pressable>
+            <Text style={styles.answerText}>✓ Verdadero</Text>
+          </Pressable>
 
-        <Pressable
-          style={[
-            styles.answerButton,
-            styles.falseButton,
-          ]}
-          onPress={() =>
-            answer(false)
-          }
-        >
-          <Text
-            style={styles.answerText}
+          <Pressable
+            style={[styles.answerButton, styles.falseButton]}
+            onPress={() => answer(false)}
           >
-            ✕ Falso
-          </Text>
-        </Pressable>
+            <Text style={styles.answerText}>✕ Falso</Text>
+          </Pressable>
+        </View>
       </View>
     </GameLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  topRow:{
-    height:58,
-    paddingHorizontal:28,
-    justifyContent:"center",
+  /* Mismo margen e idéntica ubicación que en stats */
+  topRow: {
+    marginTop: 40,
+    marginBottom: 20,
+    paddingHorizontal: 24, // Para mantener la alineación fluida de la pantalla
   },
-
-  content:{
-    alignItems:"center",
-    marginTop:42,
-    paddingHorizontal:28,
+  mainContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
-
-  operation:{
-    color:"#171326",
-    fontSize:50,
-    fontWeight:"900",
-    marginBottom:46,
+  operationWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
-
-  answerButton:{
-    width:"100%",
-    height:72,
-    borderRadius:10,
-    alignItems:"center",
-    justifyContent:"center",
-    marginBottom:18,
-    borderWidth:3,
-    borderColor:"#FFFFFF"
+  operation: {
+    color: "#171326",
+    fontSize: 54,
+    fontWeight: "900",
+    textAlign: "center",
   },
-
-  trueButton:{
-    backgroundColor:"#51C86B",
+  buttonWrapper: {
+    width: "100%",
+    gap: 16,
   },
-
-  falseButton:{
-    backgroundColor:"#FF5757",
+  answerButton: {
+    width: "100%",
+    height: 76,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "#FFFFFF",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
-
-  answerText:{
-    color:"#FFFFFF",
-    fontSize:28,
-    fontWeight:"900"
-  }
-
+  trueButton: {
+    backgroundColor: "#51C86B",
+  },
+  falseButton: {
+    backgroundColor: "#FF5757",
+  },
+  answerText: {
+    color: "#FFFFFF",
+    fontSize: 26,
+    fontWeight: "900",
+  },
 });

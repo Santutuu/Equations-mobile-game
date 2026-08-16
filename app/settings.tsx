@@ -29,11 +29,11 @@ color="white"
 
 </Link>
 
+</View>
 <Text style={styles.title}>
 Configuracion
 </Text>
 
-</View>
 
 <View style={styles.content}>
 
@@ -81,7 +81,8 @@ topRow:{
 height:60,
 gap:20,
 flexDirection:"row",
-alignItems:"center"
+alignItems:"center",
+marginTop:30
 },
 
 title:{
@@ -89,11 +90,11 @@ fontSize:34,
 fontWeight:"900",
 color:"white",
 
-marginLeft:20
+marginLeft:70
 },
 
 content:{
-marginTop:20,
+marginTop:50,
 
 alignItems:"center",
 gap:25
@@ -102,6 +103,7 @@ gap:25
 saveButton:{
 width:"85%",
 height:65,
+marginTop:40,
 
 backgroundColor:"#F5D547",
 

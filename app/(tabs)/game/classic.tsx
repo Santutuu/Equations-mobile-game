@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -29,35 +29,21 @@ export default function ClassicGameScreen() {
   } = useClassicGame({
     level,
     restartKey,
-
-    accumulatedScore: Number(
-      params.accumulatedScore ?? 0
-    ),
-
-    accumulatedCorrectAnswers: Number(
-      params.accumulatedCorrectAnswers ?? 0
-    ),
-
-    accumulatedWrongAnswers: Number(
-      params.accumulatedWrongAnswers ?? 0
-    ),
-
-    accumulatedResponseTime: Number(
-      params.accumulatedResponseTime ?? 0
-    ),
+    accumulatedScore: Number(params.accumulatedScore ?? 0),
+    accumulatedCorrectAnswers: Number(params.accumulatedCorrectAnswers ?? 0),
+    accumulatedWrongAnswers: Number(params.accumulatedWrongAnswers ?? 0),
+    accumulatedResponseTime: Number(params.accumulatedResponseTime ?? 0),
   });
 
   return (
     <GameLayout>
+      {/* Barra superior con el botón suelto, idéntico al código de Stats */}
       <View style={styles.topRow}>
-        <Pressable
-  onPress={() => {
-    
-    router.replace("/");
-  }}
->
-  <IconSymbol name="house.fill" size={80} color="#171326" />
-</Pressable>
+        <Link href="/" asChild>
+          <Pressable>
+            <IconSymbol name="house.fill" size={50} color="black" />
+          </Pressable>
+        </Link>
       </View>
 
       <GameStatusBar
@@ -67,33 +53,36 @@ export default function ClassicGameScreen() {
         maxRounds={maxRounds}
       />
 
-      <OperationCard
-        expression={
-          operation.expression
-        }
-        answerText={answer}
-      />
+      {/* Cambiado a flex-start para que la tarjeta no se caiga encima del teclado */}
+      <View style={styles.gameContentContainer}>
+        <OperationCard
+          expression={operation.expression}
+          answerText={answer}
+        />
+      </View>
 
       <AnswerPad
-        onNumberPress={
-          pressNumber
-        }
-        onDelete={
-          deleteLast
-        }
-        onSubmit={
-          submitAnswer
-        }
+        onNumberPress={pressNumber}
+        onDelete={deleteLast}
+        onSubmit={submitAnswer}
       />
     </GameLayout>
   );
 }
 
-const styles =
-StyleSheet.create({
+const styles = StyleSheet.create({
+  /* Mismo margen e idéntica ubicación que en stats */
   topRow: {
-    height: 58,
-    paddingHorizontal: 28,
-    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 20,
+    paddingHorizontal: 24,
+  },
+  gameContentContainer: {
+    flex: 1,
+    justifyContent: "flex-start", // Alinea arriba para dar más margen respecto al AnswerPad
+    alignItems: "center",
+    paddingHorizontal: 24,
+    paddingTop: 46, // Empuja sutilmente hacia abajo desde la barra de estado, quedando en la zona ideal
+    paddingBottom: 20,
   },
 });
