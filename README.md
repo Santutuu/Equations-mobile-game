@@ -3,7 +3,7 @@
 **Equations** is a mobile mental math game built with **React Native and TypeScript**, featuring multiple game modes, progressive difficulty, dynamic equation generation and performance tracking.
 
 <p align="center">
-  <img src="docs/screenshots/Menu-principal.jpeg" width="38%" alt="Main Menu"/>
+  <img src="docs/screenshots/Menu-principal.jpeg" width="30%" alt="Main Menu"/>
 </p>
 
 ---
